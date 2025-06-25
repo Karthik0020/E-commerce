@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Commerce - Home</title>
+  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+</head>
+<body>
+
+<section id="header">
+    <a href="#"><img src="https://theloom.in/media/loom-text.png" class="logo" alt="" style="height: 50px;"></a>
+    <div>
+  <ul id="navbar">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a class="active" href="products.html">Products</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="login.html">Login</a></li>
+   
+     <div class="right-icons">
+      <li><a href="wishlist.html"><i class="fas fa-heart"></i></a></li>
+      <li><a href="cart.html"><i class="fas fa-shopping-cart"></i></a></li>
+    </div>
+  </ul>
+</div>
+</section>
+
+<section id="pro-detail" class="section-p1">
+  <div class="single-pro-image">
+    <img id="MainImg" src="" width="100%" alt="">
+    <div class="small-img-group" id="smallImages"></div>
+  </div>
+
+  <div class="single-pro-details">
+    <h6 id="brand"></h6>
+    <h4 id="productName"></h4>
+    <h2 id="price"></h2>
+    <select>
+      <option>Select Size</option>
+      <option>XL</option>
+      <option>Large</option>
+      <option>XXL</option>
+      <option>Medium</option>
+      <option>Small</option>
+      <option>XS</option>
+    </select>
+  <input type="number" id="quantity" value="1" min="1">
+<button id="add-to-cart-btn">Add to Cart</button>
+    <h4>Product Details</h4>
+    <p id="description"></p>
+  </div>
+</section>
+
+<script>
+  const products = [
+    {
+      id: 1,
+      brand: "POWERLOOK",
+      name: "Olive Green Check shirt",
+      price: "$40.08",
+      description: "Stay effortlessly stylish with this olive green check shirt. The classic check pattern combined with a modern fit makes it ideal for casual outings or layered looks. Pair it with jeans or chinos for a smart-casual vibe.",
+      mainImg: "https://media.powerlook.in/catalog/product/d/p/dp1172021-1.jpg?aio=w-640",
+      images: [
+        "https://media.powerlook.in/catalog/product/d/p/dp1172021-1.jpg?aio=w-640",
+        "https://media.powerlook.in/catalog/product/9/1/91172021-1.jpg?aio=w-1080",
+        "https://media.powerlook.in/catalog/product/2/1/21172021-1.jpg?aio=w-1080",
+        "https://media.powerlook.in/catalog/product/4/1/41172021-1.jpg?aio=w-1080"
+      ]
+    },
+    {
+      id: 2,
+      brand: "Savana",
+      name: "Darted Shirt Dress",
+      price: "$58.20",
+      description: "Designed for modern elegance, this Darted Shirt Dress features tailored darts that flatter your silhouette while offering all-day comfort. Its versatile design transitions seamlessly from office meetings to casual outings, making it a must-have in every wardrobe.",
+      mainImg: "https://img105.savana.com/goods-pic/b049333d32d14e6598bdafa68539827c_w540_h720_q85.webp",
+      images: [
+        "https://img105.savana.com/goods-pic/b049333d32d14e6598bdafa68539827c_w540_h720_q85.webp",
+        "https://images.asos-media.com/products/abercrombie-fitch-draped-satin-shirt-dress-in-mink/205327472-2?$n_640w$&wid=513&fit=constrain",
+        "https://assets.myntassets.com/h_1440,q_100,w_1080/v1/assets/images/19923018/2022/9/23/8e3abaa8-0fe0-40b2-8697-725b6f8441621663927139168TopsNA-KDWomenTopsNA-KDWomenTopsNA-KDWomenDressesNA-KDWomenT1.jpg",
+        "https://img1.shopcider.com/product/1640071597000-6trn34.jpg?x-oss-process=image/resize,w_700,m_lfit/quality,Q_60/format,webp"
+      ]
+    },
+    {
+      id: 3,
+      brand: "H&M",
+      name: "Oversized printed T-shirts",
+      price: "$34.90",
+      description: "Stay cool and relaxed with our Oversized Printed T-Shirts. Featuring bold, eye-catching prints and a loose, comfortable fit, these tees are perfect for laid-back days or making a fashion statement. Pair them with jeans, shorts, or joggers for an effortlessly stylish look.",
+      mainImg: "https://image.hm.com/assets/hm/a1/2e/a12e0c0a127637ab1ae51ca74c0bc0e527a390ad.jpg?imwidth=768",
+      images: [
+      "https://image.hm.com/assets/hm/a1/2e/a12e0c0a127637ab1ae51ca74c0bc0e527a390ad.jpg?imwidth=768",
+        "https://d29c1z66frfv6c.cloudfront.net/pub/media/catalog/product/large/510316f9e6819ab4fc07bbb2ad585674c08b7073_xxl-1.jpg",
+        "https://image.hm.com/assets/hm/ea/30/ea30a5999c766e0fa2021e90d71c742e4b2f14a5.jpg?imwidth=768",
+         "https://d29c1z66frfv6c.cloudfront.net/pub/media/catalog/product/large/c9dc1eeb109f3168869df36aae2af44f20565d77_xxl-1.jpg"
+      ]
+    },
+    {
+      id: 4,
+      brand: "TeamSG",
+      name: "SG Poly Spandex T-shirt",
+      price: "$25.30",
+      description: "Engineered for performance, the SG Poly Spandex T-shirt offers superior stretch, moisture-wicking, and breathability. Its lightweight poly-spandex blend ensures maximum comfort and flexibility, making it perfect for workouts, sports, or casual wear.",
+      mainImg: "https://shop.teamsg.in/cdn/shop/files/1_579c3dcc-1407-4ba8-90d5-35fd46d20859.jpg?v=1725974199",
+      images: [
+    "https://shop.teamsg.in/cdn/shop/files/1_579c3dcc-1407-4ba8-90d5-35fd46d20859.jpg?v=1725974199",
+    "https://shop.teamsg.in/cdn/shop/files/7_2554d49a-6d24-4d20-82e4-3f51231ad5c8.jpg?v=1725974199&width=1445",
+    "https://shop.teamsg.in/cdn/shop/files/2_c2bc4bdb-00ab-4464-85e2-d77ff259b98c.jpg?v=1725974199&width=1445",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTabRSAxOVtBLNNzKSkDFp4HA9LIeGlf--7fqN9BcMQaDLMUV1RJ4f58CUPsmPvznwb0Zo&usqp=CAU"
+      ]
+    },
+    {
+      id: 5,
+      brand: "DENNISON",
+      name: "Formal suits",
+      price: "$46.80",
+      description: "Tailored to perfection, our Formal Suits for Women combine sophistication and modern design. Crafted from premium fabrics, they offer a flattering fit that exudes confidence and professionalism — perfect for office meetings, corporate events, or formal occasions.",
+      mainImg: "https://assets.myntassets.com/w_412,q_60,dpr_2,fl_progressive/assets/images/23644536/2023/9/11/cadf2c87-db03-423c-a7a7-0b0563537f1a1694436847312DENNISONWomenSolidSlimFitSingleBreasted2-PieceFormalSuit1.jpg",
+      images: [
+      "https://assets.myntassets.com/w_412,q_60,dpr_2,fl_progressive/assets/images/23644536/2023/9/11/cadf2c87-db03-423c-a7a7-0b0563537f1a1694436847312DENNISONWomenSolidSlimFitSingleBreasted2-PieceFormalSuit1.jpg",
+      "https://assets.myntassets.com/w_412,q_60,dpr_2,fl_progressive/assets/images/23644536/2023/9/11/d1b20dd8-7cf5-4afa-a294-62762c866e8f1694436847486DENNISONWomenSolidSlimFitSingleBreasted2-PieceFormalSuit7.jpg",
+      "https://assets.myntassets.com/w_412,q_60,dpr_2,fl_progressive/assets/images/23644536/2023/9/11/0b26225f-69b7-421c-9e03-6774d77bc5bc1694436847341DENNISONWomenSolidSlimFitSingleBreasted2-PieceFormalSuit2.jpg",
+      "https://assets.myntassets.com/w_412,q_60,dpr_2,fl_progressive/assets/images/26830428/2024/5/28/3bf58509-2465-4c1a-983b-5ff696ba99d41716897611674-her-by-invictus-Women-Co-Ords-9801716897611166-2.jpg"
+      ]
+    },
+    {
+      id: 6,
+      brand: "Roadster",
+      name: "Men White Back Print Short Sleeve Oversized T-shirt",
+      price: "$42.80",
+      description: "Featuring a striking graphic design on the back, this t-shirt offers a perfect blend of comfort and style. A must-have piece for those who love to express their personality through fashion.",
+      mainImg: "https://d1pdzcnm6xgxlz.cloudfront.net/tops/8905875448181-18.jpg",
+      images: [
+      "https://d1pdzcnm6xgxlz.cloudfront.net/tops/8905875448181-18.jpg",
+      "https://d1pdzcnm6xgxlz.cloudfront.net/tops/8905875448181-10.jpg",
+      "https://d1pdzcnm6xgxlz.cloudfront.net/tops/8905875448181-12.jpg",
+      "https://d1pdzcnm6xgxlz.cloudfront.net/tops/8905875448181-14.jpg"
+      ]
+    },
+    {
+      id: 7,
+      brand: "Savana",
+      name: "Lace-trimmed Tank Dress",
+      price: "$56.80",
+      description: "This elegant dress blends sophisticated design with a flattering fit, perfect for making a statement at any occasion while offering all-day comfort.",
+      mainImg: "https://img105.savana.com/goods-pic/fd63488c20ed4a308c8f0a8028b575ab_w540_h720_q85.webp",
+      images: [
+      "https://img105.savana.com/goods-pic/fd63488c20ed4a308c8f0a8028b575ab_w540_h720_q85.webp",
+      "https://images.asos-media.com/products/house-of-cb-claudia-stretch-cotton-halter-neck-midi-dress-in-blue-floral-print/208858674-3?$n_640w$&wid=513&fit=constrain",
+      "https://dsh6y5eym1jrl.cloudfront.net/_next/image?url=https%3A%2F%2Fd166chel5lrjm5.cloudfront.net%2Fimages%2Fdetailed%2F116%2Fclaudia-11031a-51.jpg&w=3840&q=100",
+      "https://dsh6y5eym1jrl.cloudfront.net/_next/image?url=https%3A%2F%2Fd166chel5lrjm5.cloudfront.net%2Fimages%2Fdetailed%2F116%2Fclaudia-11031a-41.jpg&w=3840&q=100",
+      ]
+    },
+    {
+      id: 8,
+      brand: "JURANMO",
+      name: "Color Block Hawaiian Shirt",
+      price: "$46.80",
+      description: "Embrace the spirit of the islands with this vibrant Hawaiian shirt, featuring bold tropical prints and breezy lightweight fabric. Perfect for beach days, summer parties, or casual getaways",
+      mainImg: "https://i5.walmartimages.com/asr/d6807525-2ab4-4c4d-9497-d622749abf89.067530d92759ca031702a3f7ca082a87.jpeg",
+      images: [
+      "https://i5.walmartimages.com/asr/d6807525-2ab4-4c4d-9497-d622749abf89.067530d92759ca031702a3f7ca082a87.jpeg",
+      "https://i5.walmartimages.com/asr/f82f53d6-af7c-4c6a-afab-f4c1bdd9bc2f.a4fcdf4153e4319d964d36db98b3957b.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF",
+      "https://i5.walmartimages.com/asr/63630de4-f7fa-47c4-910e-fa90ab06c41e.8bd5df110b306ead61cf60f48288eff0.jpeg?odnHeight=768&odnWidth=768&odnBg=FFFFFFF",
+      "https://i5.walmartimages.com/asr/08826b9a-46d3-4882-871d-fb3afabcdb5d.6212fcf8d885aa31e3483220d6e678b4.jpeg"
+      ]
+    },
+    {
+      id: 9,
+      brand: "Allen Solly",
+      name: "Plain Slim Fit Anthracite Men Suit",
+      price: "$90.80",
+      description: "This premium suit is tailored for the modern professional, offering sharp lines, luxurious fabric, and a confident silhouette that commands attention",
+      mainImg: "https://www.wessi.com/cdn/shop/products/plain-slim-fit-anthracite-men-suit-454924-20-B.jpg?v=1723634207&width=720",
+      images: [
+      "https://www.wessi.com/cdn/shop/products/plain-slim-fit-anthracite-men-suit-454924-20-B.jpg?v=1723634207&width=720",
+      "https://www.wessi.com/cdn/shop/products/plain-slim-fit-anthracite-men-suit-454916-20-B.jpg?v=1723634212&width=720",
+      "https://www.wessi.com/cdn/shop/products/plain-slim-fit-anthracite-men-suit-454919-20-B.jpg?v=1723634221&width=720",
+      "https://www.wessi.com/cdn/shop/products/plain-slim-fit-anthracite-men-suit-454926-20-B.jpg?v=1723634205&width=1800"
+      ]
+    },
+    {
+      id: 10,
+      brand: "JEANATICJEANS",
+      name: "Wide Leg Flared Demin",
+      price: "$28.2",
+      description: "Make a statement with these high-waisted flared jeans that elongate your legs and flatter your figure. The soft stretch denim ensures comfort while adding a retro-chic vibe to your wardrobe.",
+      mainImg: "https://images.meesho.com/images/products/539513321/p1grw_512.webp",
+      images: [
+      "https://images.meesho.com/images/products/539513321/p1grw_512.webp",
+      "https://images.meesho.com/images/products/539513321/qw4at_512.webp",
+      "https://images.meesho.com/images/products/539513321/kmejs_512.webp",
+      "https://images.meesho.com/images/products/539513338/adcyn_512.webp"
+      ]
+
+    },
+    {
+      id: 11,
+      brand: "Trendyol",
+      name: "Mink Brown Pleated High Waist Shorts",
+      price: "$34.9",
+      description: "Elevate your wardrobe with these Mink Brown Pleated High Waist Shorts, crafted for both comfort and sophistication. Featuring a flattering high-rise fit and soft pleats, these shorts offer a polished look perfect for any casual or semi-formal occasion.",
+      mainImg: "https://dynamic.zacdn.com/T27lrlNzZ5E-Cx3_pqUK6FLFspQ=/filters:quality(70):format(webp)/https://static-my.zacdn.com/p/trendyol-2151-8484514-1.jpg",
+      images: [
+      "https://dynamic.zacdn.com/T27lrlNzZ5E-Cx3_pqUK6FLFspQ=/filters:quality(70):format(webp)/https://static-my.zacdn.com/p/trendyol-2151-8484514-1.jpg",
+      "https://dynamic.zacdn.com/tdOR4DCN5MR0jJZYhaeKfwydtB8=/filters:quality(70):format(webp)/https://static-my.zacdn.com/p/trendyol-2152-8484514-3.jpg",
+      "https://dynamic.zacdn.com/GDHuufWzMGBZ6VouovhPO170y8I=/filters:quality(70):format(webp)/https://static-my.zacdn.com/p/trendyol-2153-8484514-6.jpg",
+      "https://dynamic.zacdn.com/liTuhc66sQOTetf9uqzF2Tz6i6o=/filters:quality(70):format(webp)/https://static-my.zacdn.com/p/trendyol-2152-8484514-2.jpg"
+      ]
+    },
+    {
+      id: 12,
+      brand: "Andamen",
+      name: "White Olive Mark Shirt",
+      price: "$50.8",
+      description: "The White Olive Mark Shirt blends timeless elegance with modern sophistication. Crafted from soft, breathable fabric, its subtle olive detailing adds a fresh twist to the classic white shirt, perfect for both casual and formal occasions.",
+      mainImg: "https://www.andamen.com/cdn/shop/products/01_d6fdf9aa-a835-4e03-98c2-79a3cb3e5f7d.jpg?v=1743151949&width=533",
+      images: [
+      "https://www.andamen.com/cdn/shop/products/01_d6fdf9aa-a835-4e03-98c2-79a3cb3e5f7d.jpg?v=1743151949&width=533",
+      "https://assets.ajio.com/medias/sys_master/root/20230628/O8LX/649bf094eebac147fc24a71b/-473Wx593H-465827064-white-MODEL4.jpg",
+      "https://www.andamen.com/cdn/shop/products/05_3e8c034d-825a-4690-9fbb-0198ab6bd967.jpg?v=1743151950&width=1445",
+      "https://assets.ajio.com/medias/sys_master/root/20230628/Qahk/649bf094eebac147fc24a71e/-473Wx593H-465827064-white-MODEL3.jpg",
+    
+      ]
+    },
+    {
+      id: 13,
+      brand: "Savana",
+      name: "Colour Block Pencil Dress",
+      price: "$46.80",
+      description: "Elevate your wardrobe with this Colour Block Pencil Dress, designed to flatter your silhouette with its sleek, figure-hugging fit. The bold color block design adds a modern edge, perfect for both office wear and evening outings.",
+      mainImg: "https://img105.savana.com/goods-pic/de1f198a20264372876872e520f1c8a6_w1440_q90.webp",
+      images: [
+      "https://img105.savana.com/goods-pic/de1f198a20264372876872e520f1c8a6_w1440_q90.webp",
+      "https://img105.savana.com/goods-pic/d8dc8c20876b4d468b6af30e061d43f8_w1440_q90.webp",
+      "https://img105.savana.com/goods-pic/656828ae954a474db171f09c820c42c3_w1440_q90.webp",
+       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUhWTZR3C98NHTVFCaeiJbP5obNJPlF8EApfQSD2Ct5k2nhpYHN6qJsUV7shALJTPGnwk&usqp=CAU"
+      ]
+    },
+    {
+      id: 14,
+      brand: "PRONK",
+      name: "Mens Denim blue Jacket",
+      price: "$42.00",
+      description: "The Men's Denim Blue Jacket offers timeless style with a modern edge. Crafted from durable, high-quality denim, this jacket combines comfort and rugged sophistication, making it a versatile choice for every season.",
+      mainImg: "https://pronk.in/cdn/shop/files/5_afb44dd2-7d9b-41a1-a904-5c770cfda6d5.jpg?v=1707213247",
+      images: [
+      "https://pronk.in/cdn/shop/files/5_afb44dd2-7d9b-41a1-a904-5c770cfda6d5.jpg?v=1707213247",
+      "https://pronk.in/cdn/shop/files/4_7f1be95c-a6cd-4d33-b85d-f0560288525f_1800x1800.jpg?v=1707213247",
+      "https://assets.myntassets.com/w_412,q_60,dpr_2,fl_progressive/assets/images/27011204/2024/1/19/45ef4431-ca65-4cee-b52f-fa80f944a3e41705671574130PRONKMenBlueWashedDenimJacketwithEmbroidered1.jpg",
+      "https://pronk.in/cdn/shop/files/1_1251d50b-4861-4545-8710-a33ebb40d0e1_1800x1800.jpg?v=1707213247"
+      ]
+    },
+    {
+      id: 15,
+      brand: "Savana",
+      name: "Pintuck Seam Denim Waistcoat",
+      price: "$56.90",
+      description: "The Pintuck Seam Denim Waistcoat brings a refined touch to classic denim. Featuring precise pintuck seams and a tailored fit, this waistcoat offers a polished look perfect for layering over shirts or tees for casual or smart-casual occasions",
+      mainImg: "https://kaykayclothing.com/cdn/shop/files/E1338C9F-5DCC-4446-803C-21826ADD710C.jpg?v=1742379754&width=1946",
+      images: [
+      "https://kaykayclothing.com/cdn/shop/files/E1338C9F-5DCC-4446-803C-21826ADD710C.jpg?v=1742379754&width=1946",
+      "https://xcdn.next.co.uk/Common/Items/Default/Default/ItemImages/3_4Ratio/SearchINT/Lge/AV7894.jpg?im=Resize,width=450",
+      "https://img105.savana.com/goods-pic/c2060ff4b2dd4ccaa3b4747fb976c085_w540_h720_q85.webp",
+      "https://cdna.lystit.com/photos/thereformation/155945f0/reformation-Keila-Ophelia-Denim-Top.jpeg"
+      ]
+    },
+    {
+      id: 16,
+      brand: "Velvery",
+      name: "Boho Crochet Top-beige",
+      price: "$67.14",
+      description: "The Boho Crochet Top in beige blends artisanal craftsmanship with effortless style. Its delicate crochet pattern and relaxed fit create a soft, feminine silhouette perfect for layering or wearing on its own for a chic bohemian look.",
+      mainImg: "https://cdn.shopaccino.com/ajoobaa/products/vtop22a-6227227604552_l.jpg?v=573?param=6",
+      images: [
+      "https://cdn.shopaccino.com/ajoobaa/products/vtop22a-6227227604552_l.jpg?v=573?param=6",
+      "https://cdn.shopaccino.com/ajoobaa/products/vtop22g-6226357469543_l.jpg?v=573?param=4",
+      "https://cdn.shopaccino.com/ajoobaa/products/vtop22d-6226774107976_l.jpg?v=573?param=5",
+      "https://cdn.shopaccino.com/ajoobaa/products/vtop22f-6229729512312_l.jpg?v=573?param=1"
+      ]
+    },
+     {
+      id: 17,
+      brand: "Linen Blend",
+      name: "Riverline Shirt - Grey Printed",
+      price: "$55.14",
+      description: "The Riverline Shirt in Grey Printed offers a perfect balance of modern design and everyday comfort. Its subtle print adds visual interest, while the breathable fabric ensures you stay cool and comfortable all day long.",
+      mainImg: "https://www.nicobar.com/cdn/shop/files/NBI040403_1_1200x.jpg?v=1747287145",
+      images: [
+      "https://www.nicobar.com/cdn/shop/files/NBI040403_1_1200x.jpg?v=1747287145",
+      "https://www.nicobar.com/cdn/shop/files/NBI040403_3_765x.jpg?v=1747287148",
+      "https://www.nicobar.com/cdn/shop/files/NBI040403_4_765x.jpg?v=1747287149",
+      "https://www.nicobar.com/cdn/shop/files/NBI040403_2_765x.jpg?v=1747287146"
+      ]
+    },
+     {
+      id: 18,
+      brand: "Giva",
+      name: "Necklaces & Earring",
+      price: "$70.00",
+      description: "Elevate your look with our exquisite collection of necklaces and earrings. Designed with precision and elegance, each piece adds a timeless charm, perfect for both everyday wear and special occasions",
+      mainImg: "https://media.istockphoto.com/id/1427466115/photo/beauty-model-in-wedding-jewelry-set-elegant-woman-in-necklace-with-earring-and-ring-beautiful.jpg?s=612x612&w=0&k=20&c=AT9DfkZvRbxKkuqjCEGjF9P3D3dOKZvRh2J5hw8mjt0=",
+      images: [
+      "https://media.istockphoto.com/id/1427466115/photo/beauty-model-in-wedding-jewelry-set-elegant-woman-in-necklace-with-earring-and-ring-beautiful.jpg?s=612x612&w=0&k=20&c=AT9DfkZvRbxKkuqjCEGjF9P3D3dOKZvRh2J5hw8mjt0=",
+      "https://media.istockphoto.com/id/865326900/photo/young-gorgeous-asian-woman-in-a-smoky-eyes-style-make-up-dressed-in-a-tassel-earrings.jpg?s=612x612&w=0&k=20&c=Ln_VoimwvXr_8LnJKLqu3s-HVI_Tu2Cobc2YK6fF_Jg=",
+      "https://media.istockphoto.com/id/1427466087/photo/woman-beauty-with-smooth-skin-make-up-and-golden-jewelry-beautiful-girl-with-perfect-lips-and.jpg?s=612x612&w=0&k=20&c=B3ngEKRxzyKWlHX3dFZT8IiwuVPo3YPsWUDzz2TCUzY=",
+      "https://t3.ftcdn.net/jpg/02/25/29/24/360_F_225292448_o7uEjDWLOc2p7QlUXXBfmpQ9U7NAQkB4.jpg"
+      ]
+    },
+     {
+      id: 19,
+      brand: "U.S Polo Assn",
+      name: "Pure Cotton Slim Fit Polo Shirt",
+      price: "$38.12",
+      description: "Crafted from premium pure cotton, this slim fit polo shirt offers unmatched comfort and a polished silhouette. Perfect for casual outings or smart-casual events, it combines timeless style with breathable softness.",
+      mainImg: "https://img.tatacliq.com/images/i23//437Wx649H/MP000000025912734_437Wx649H_202503300742512.jpeg",
+      images: [
+      "https://img.tatacliq.com/images/i23//437Wx649H/MP000000025912734_437Wx649H_202503300742512.jpeg",
+      "https://img.tatacliq.com/images/i23//437Wx649H/MP000000025912734_437Wx649H_202503300742491.jpeg",
+      "https://img.tatacliq.com/images/i23//437Wx649H/MP000000025912734_437Wx649H_202503300742477.jpeg",
+      "https://img.tatacliq.com/images/i23//437Wx649H/MP000000025912734_437Wx649H_202503300742535.jpeg"
+      ]
+    },
+     {
+      id: 20,
+      brand: "Being Flawless",
+      name: "Flawless Trendy Party Red Dress",
+      price: "$49.80",
+      description: "Turn heads with this flawless trendy party red dress, designed to exude confidence and sophistication. Crafted from high-quality fabric, it features a flattering silhouette that accentuates your curves, making it perfect for evening events, cocktail parties, or special occasions",
+      mainImg: "https://beingflawless.com/cdn/shop/files/DSC_5004.jpg?v=1693666305",
+      images: [
+      "https://beingflawless.com/cdn/shop/files/DSC_5004.jpg?v=1693666305",
+      "https://www.beingflawless.com/cdn/shop/files/DSC_4998.jpg?v=1706609498&width=1445",
+       "https://www.beingflawless.com/cdn/shop/files/DSC_4996.jpg?v=1706609498&width=1445",
+      "https://www.beingflawless.com/cdn/shop/files/DSC_4999.jpg?v=1706609498&width=1445"
+      ]
+    }
+  ];
+
+  const params = new URLSearchParams(window.location.search);
+  const productId = params.get("id");
+  const product = products.find(p => p.id == productId);
+
+  if (product) {
+    document.getElementById("MainImg").src = product.mainImg;
+    document.getElementById("brand").innerText = product.brand;
+    document.getElementById("productName").innerText = product.name;
+    document.getElementById("price").innerText = product.price;
+    document.getElementById("description").innerText = product.description;
+
+    const smallImagesContainer = document.getElementById("smallImages");
+    product.images.forEach(imgUrl => {
+      const imgDiv = document.createElement("div");
+      imgDiv.classList.add("small-img-col");
+      imgDiv.innerHTML = `<img src="${imgUrl}" width="100%" class="small-img" alt="">`;
+      smallImagesContainer.appendChild(imgDiv);
+    });
+
+    // Add event listener after dynamically adding small images
+    setTimeout(() => {
+      document.querySelectorAll('.small-img').forEach(img => {
+        img.onclick = () => {
+          document.getElementById("MainImg").src = img.src;
+        }
+      });
+    }, 100);
+  } else {
+    document.getElementById("pro-detail").innerHTML = "<h2>Product not found</h2>";
+  }
+// Add to Cart functionality
+document.getElementById("add-to-cart-btn").addEventListener("click", function() {
+    let quantity = parseInt(document.getElementById("quantity").value);
+    
+    // Extract price as number (remove $ sign)
+    let priceValue = parseFloat(product.price.replace('$', ''));
+
+    let cartItem = {
+        id: product.id,
+        name: product.name,
+        price: priceValue,
+        img: product.mainImg,
+        quantity: quantity
+    };
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // Check if product already exists in cart
+    let existing = cart.find(item => item.id === cartItem.id);
+    if (existing) {
+        existing.quantity += quantity;
+    } else {
+        cart.push(cartItem);
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("Product added to cart!");
+});
+
+
+</script>
+
+
+
+<section id="product1" class="section-p1">
+    <h2>Featured Products</h2>
+    <p>Summer Collections New Modern Design</p>
+    <div class="pro-container">
+        <div class="pro">
+            <img src="https://media.powerlook.in/catalog/product/d/p/dp21203321.jpg?aio=w-640" alt="">
+            <div class="des">
+                <span>adidas</span>
+                <h5>Cartoon Astronaut shirt</h5>
+                <div class="star">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <h4>$50.08</h4>
+            </div>
+            <div class="icon-container">
+                <a href="#"><span class="cart">🛒</span></a>
+                <a href="#"><span class="heart">❤️</span></a>
+            </div>
+        </div>
+
+          <div class="pro">
+            <img src="https://img105.savana.com/goods-pic/b049333d32d14e6598bdafa68539827c_w540_h720_q85.webp" alt="">
+            <div class="des">
+                <span>Savana</span>
+                <h5>Darted Shirt Dress</h5>
+                <div class="star">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <h4>$28.2</h4>
+            </div>
+            <div class="icon-container">
+                <a href="#"><span class="cart">🛒</span></a>
+                <a href="#"><span class="heart">❤️</span></a>
+            </div>
+        </div>
+
+          <div class="pro">
+            <img src="https://img105.savana.com/goods-pic/35e2243c8b154f9788a59a60abd34dddUR_w1440_q90.webp" alt="">
+            <div class="des">
+                <span>Savana</span>
+                <h5>Textured Midi Dress</h5>
+                <div class="star">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <h4>$34.9</h4>
+            </div>
+            <div class="icon-container">
+                <a href="#"><span class="cart">🛒</span></a>
+                <a href="#"><span class="heart">❤️</span></a>
+            </div>
+        </div>
+
+          <div class="pro">
+            <img src="https://media.powerlook.in/catalog/product/3/_/3_1442_169.jpg?aio=w-640" alt="">
+            <div class="des">
+                <span>POWERLOOK</span>
+                <h5>Blue Stripes Shirt</h5>
+                <div class="star">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <h4>$25.30</h4>
+            </div>
+            <div class="icon-container">
+                <a href="#"><span class="cart">🛒</span></a>
+                <a href="#"><span class="heart">❤️</span></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="newsletter" class="section-p1 section-m1"> 
+    <div class="newstext">
+        <h4>Sign Up For Newsletters</h4>
+        <p>Get E-mail update about our latest shop and <span>special offers.</span></p>
+    </div>
+<div class="form">
+<input type="text" placeholder="Your email address">
+<button class="normal">Sign Up</button>
+</div>
+</section>
+
+<footer class="section-p1">
+    <div class="col">
+        <img class="logo" src="https://theloom.in/media/loom-text.png" alt="Logo">
+        <h4>Contact</h4>
+        <p>562 Wellington Road street 32, San Francisco</p>
+        <p><strong>Phone:</strong> +01 3333 678 / (+91) 01 4325 6786</p>
+        <p><strong>Hours:</strong> 10:00 - 18:00, Mon - Sat</p>  
+        <div class="follow">
+            <h4>Follow Us</h4>
+            <div class="icon">
+                <i class="fab fa-facebook-f"></i>
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-pinterest-p"></i>
+                <i class="fab fa-youtube"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <h4>About Us</h4>
+        <a href="#">About Us</a>
+        <a href="#">Delivery Information</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms & Conditions</a>
+        <a href="#">Contact Us</a> 
+    </div>
+
+    <div class="col">
+        <h4>My Account</h4>
+        <a href="#">Sign In</a>
+        <a href="#">View Cart</a>
+        <a href="#">My Wishlist</a>
+        <a href="#">Track My Order</a>
+        <a href="#">Help</a> 
+    </div>
+
+
+    <div class="copyright">
+        <p>© 2025, HTML CSS E-commerce Website</p>
+    </div>
+</footer>
+
+
+<script src="script.js"></script>
+</body>
+</html>

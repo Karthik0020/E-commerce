@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Cart</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+   
+    #header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      background-color: #dbd5d2;
+    }
+    #header .logo {
+      height: 60px;
+    }
+    #navbar {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin: 0;
+      padding: 0;
+    }
+    #navbar li a {
+      text-decoration: none;
+      color: rgb(34, 33, 33);
+      font-weight: 500;
+      font-size: 16px;
+    }
+    #navbar li a.active {
+      border-bottom: 2px solid #088178;
+    }
+    #navbar i {
+      font-size: 20px;
+    }
+    #page-header.cart-header {
+  background-image: url("https://i.pinimg.com/736x/0e/3c/00/0e3c004c4c5692d06d359b6b2f10eaed.jpg"); 
+  background-size: cover;
+  background-position: center;
+  height: 30vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #fff;
+  padding: 20px;
+  margin-bottom: 30px;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#page-header.cart-header h2 {
+  font-size: 48px;
+  margin: 10px 0;
+}
+
+#page-header.cart-header p {
+  font-size: 18px;
+  color: #f0f0f0;
+}
+
+
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+    }
+    .cart-item img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .cart-item-info {
+      flex: 1;
+      margin-left: 20px;
+    }
+    .cart-item-info h4 {
+      margin: 0 0 10px 0;
+    }
+    button.remove-btn {
+      background: red;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .cart-summary {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .coupon-box, .summary-box {
+      flex: 1;
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .coupon-box input[type="text"] {
+      width: 70%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+
+    .coupon-box button {
+      padding: 10px 20px;
+      background-color: #088178;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .summary-box h3 {
+      margin-top: 0;
+    }
+
+    .summary-box p {
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    .summary-box .checkout-btn {
+      display: block;
+      width: 100%;
+      background-color: #088178;
+      color: white;
+      padding: 12px;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    footer {
+  background-color: #eaebeb;
+  color: #1b1919;
+  padding: 60px 20px 20px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  position: relative;
+}
+
+footer .col {
+  flex: 1 1 220px;
+  margin: 20px;
+}
+
+footer .logo {
+  height: 50px;
+  margin-bottom: 20px;
+}
+
+footer h4 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #1b1a17;
+}
+
+footer p {
+  color: #211f1f;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+footer a {
+  display: block;
+  color: #1e1c1c;
+  margin-bottom: 10px;
+  text-decoration: none;
+  transition: 0.3s;
+  font-size: 14px;
+}
+
+footer a:hover {
+  color: #4e4747;
+  text-decoration: underline;
+}
+
+footer .icon i {
+  font-size: 20px;
+  margin-right: 15px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+footer .icon i:hover {
+  color: #1e1e1c;
+}
+
+footer .row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+footer .app-badge {
+  height: 50px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+footer .app-badge:hover {
+  transform: scale(1.05);
+}
+
+footer .payment-icon {
+  height: 40px;
+}
+
+footer .copyright {
+  width: 100%;
+  text-align: center;
+  border-top: 1px solid #444;
+  padding-top: 20px;
+  margin-top: 40px;
+  font-size: 14px;
+  color: #aaa;
+}
+
+  </style>
+</head>
+<body>
+
+<section id="header">
+  <a href="#"><img src="https://theloom.in/media/loom-text.png" class="logo" alt=""></a>
+  <ul id="navbar">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="login.html">Login</a></li>
+    <li><a href="wishlist.html"><i class="fas fa-heart"></i></a></li>
+    <li><a class="active" href="cart.html"><i class="fas fa-shopping-cart"></i></a></li>
+  </ul>
+</section>
+
+<section id="page-header" class="cart-header">
+  <h2>Shopping Cart</h2>
+  <p>Manage your cart items and complete your order!</p>
+</section>
+
+<div class="container" id="cart-items">
+</div>
+
+<div class="container cart-summary">
+  <div class="coupon-box">
+    <h3>Apply Coupon</h3>
+    <input type="text" id="coupon-code" placeholder="Enter coupon code">
+    <button onclick="applyCoupon()">Apply</button>
+  </div>
+
+  <div class="summary-box" id="summary-box">
+    <h3>Order Summary</h3>
+    <p>Subtotal: $<span id="subtotal">0.00</span></p>
+    <p>Delivery: $<span id="delivery">5.00</span></p>
+    <p><strong>Total: $<span id="total">0.00</span></strong></p>
+    <button class="checkout-btn">Proceed to Checkout</button>
+  </div>
+</div>
+
+
+<!-- Your existing footer -->
+<footer class="section-p1">
+    <div class="col">
+        <img class="logo" src="https://theloom.in/media/loom-text.png" alt="Logo">
+        <h4>Contact</h4>
+        <p>562 Wellington Road street 32, San Francisco</p>
+        <p><strong>Phone:</strong> +01 3333 678 / (+91) 01 4325 6786</p>
+        <p><strong>Hours:</strong> 10:00 - 18:00, Mon - Sat</p>  
+        <div class="follow">
+            <h4>Follow Us</h4>
+            <div class="icon">
+                <i class="fab fa-facebook-f"></i>
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-pinterest-p"></i>
+                <i class="fab fa-youtube"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <h4>About Us</h4>
+        <a href="#">About Us</a>
+        <a href="#">Delivery Information</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms & Conditions</a>
+        <a href="#">Contact Us</a> 
+    </div>
+
+    <div class="col">
+        <h4>My Account</h4>
+        <a href="#">Sign In</a>
+        <a href="#">View Cart</a>
+        <a href="#">My Wishlist</a>
+        <a href="#">Track My Order</a>
+        <a href="#">Help</a> 
+    </div>
+
+
+    <div class="copyright">
+        <p>© 2025, HTML CSS E-commerce Website</p>
+    </div>
+</footer>
+
+<script>
+  let deliveryCharge = 5;
+  let discount = 0;
+
+  function loadCart() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const cartItems = document.getElementById("cart-items");
+    const subtotalEl = document.getElementById("subtotal");
+    const totalEl = document.getElementById("total");
+
+    cartItems.innerHTML = "<h2>Your Shopping Cart</h2>";
+    let subtotal = 0;
+
+    if (cart.length === 0) {
+      cartItems.innerHTML += "<p>Your cart is empty</p>";
+      subtotalEl.innerText = "0.00";
+      totalEl.innerText = "0.00";
+      return;
+    }
+
+    cart.forEach((item, index) => {
+      subtotal += item.price * item.quantity;
+
+      cartItems.innerHTML += `
+        <div class="cart-item">
+          <img src="${item.img}" alt="${item.name}">
+          <div class="cart-item-info">
+            <h4>${item.name}</h4>
+            <p>Price: $${item.price.toFixed(2)}</p>
+            <p>Quantity: ${item.quantity}</p>
+            <p>Size: ${item.size || 'N/A'}</p>
+          </div>
+          <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+        </div>
+      `;
+    });
+
+    subtotalEl.innerText = subtotal.toFixed(2);
+    totalEl.innerText = (subtotal + deliveryCharge - discount).toFixed(2);
+  }
+
+  function removeItem(index) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    loadCart();
+  }
+
+  function applyCoupon() {
+    const code = document.getElementById("coupon-code").value.trim().toUpperCase();
+    if (code === "SAVE10") {
+      discount = 10;
+      alert("Coupon Applied! $10 discount.");
+    } else {
+      discount = 0;
+      alert("Invalid coupon.");
+    }
+    loadCart();
+  }
+
+  window.onload = loadCart;
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Wishlist</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .wishlist-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 2rem;
+    }
+    .wishlist-item {
+      border: 1px solid #ddd;
+      padding: 15px;
+      text-align: center;
+      border-radius: 8px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .wishlist-item img {
+      width: 100%;
+      height: auto;
+      max-height: 250px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+    .wishlist-item h4, .wishlist-item p {
+      margin: 10px 0;
+    }
+    .wishlist-item button {
+      margin: 5px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .btn-remove {
+      background-color: #dc3545;
+      color: white;
+    }
+    .btn-cart {
+      background-color: #198754;
+      color: white;
+    }
+    #empty-msg {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <section id="page-header">
+    <h2>My Wishlist</h2>
+    <p>Your saved products</p>
+  </section>
+
+  <div class="wishlist-container" id="wishlist-items"></div>
+  <p id="empty-msg" style="display: none;">Your wishlist is empty.</p>
+
+  <script>
+    const wishlistContainer = document.getElementById("wishlist-items");
+    const emptyMsg = document.getElementById("empty-msg");
+
+    function loadWishlist() {
+      const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      wishlistContainer.innerHTML = "";
+
+      if (wishlist.length === 0) {
+        emptyMsg.style.display = "block";
+        return;
+      }
+
+      emptyMsg.style.display = "none";
+
+      wishlist.forEach((item, index) => {
+        const itemCard = document.createElement("div");
+        itemCard.className = "wishlist-item";
+        itemCard.innerHTML = `
+          <img src="${item.imageUrl}" alt="${item.product}">
+          <h4>${item.product}</h4>
+          <p><strong>${item.brand}</strong></p>
+          <p>${item.price}</p>
+          <button class="btn-cart" onclick="addToCart(${index})">Add to Cart</button>
+          <button class="btn-remove" onclick="removeFromWishlist(${index})">Remove</button>
+        `;
+        wishlistContainer.appendChild(itemCard);
+      });
+    }
+
+    function removeFromWishlist(index) {
+      const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+      wishlist.splice(index, 1);
+      localStorage.setItem("wishlist", JSON.stringify(wishlist));
+      loadWishlist();
+    }
+
+    function addToCart(index) {
+      alert("Added to cart! (You can implement cart logic separately)");
+    }
+
+    document.addEventListener("DOMContentLoaded", loadWishlist);
+  </script>
+
+</body>
+</html>
