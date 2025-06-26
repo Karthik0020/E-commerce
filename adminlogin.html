@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login</title>
+  <style>
+    body { font-family: Arial; text-align: center; padding: 50px; background: #f4f4f4; }
+    .box { background: white; padding: 20px; max-width: 400px; margin: auto; border-radius: 8px; }
+    input { display: block; margin: 10px auto; padding: 10px; width: 90%; }
+    button { padding: 10px 20px; cursor: pointer; background: #333; color: white; border: none; }
+    a { display: block; margin-top: 10px; color: blue; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Admin Login</h2>
+    <input type="text" id="adminUsername" placeholder="Username" />
+    <input type="password" id="adminPassword" placeholder="Password" />
+    <button onclick="loginAdmin()">Login</button>
+    <a href="admin-register.html">Don't have an account? Register</a>
+  </div>
+
+  <script>
+    function loginAdmin() {
+      const username = document.getElementById("adminUsername").value;
+      const password = document.getElementById("adminPassword").value;
+
+      const storedAdmin = JSON.parse(localStorage.getItem("adminAccount"));
+      
+      if (storedAdmin && username === storedAdmin.username && password === storedAdmin.password) {
+        alert("Login successful!");
+        localStorage.setItem("adminLoggedIn", "true");
+        window.location.href = "admin-dashboard.html"; // Create this
+      } else {
+        alert("Invalid credentials.");
+      }
+    }
+  </script>
+</body>
+</html>

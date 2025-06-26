@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Register</title>
+  <style>
+    body { font-family: Arial; text-align: center; padding: 50px; background: #f4f4f4; }
+    .box { background: white; padding: 20px; max-width: 400px; margin: auto; border-radius: 8px; }
+    input { display: block; margin: 10px auto; padding: 10px; width: 90%; }
+    button { padding: 10px 20px; cursor: pointer; background: #333; color: white; border: none; }
+    a { display: block; margin-top: 10px; color: blue; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Admin Register</h2>
+    <input type="text" id="newAdminUsername" placeholder="Username" />
+    <input type="password" id="newAdminPassword" placeholder="Password" />
+    <button onclick="registerAdmin()">Register</button>
+    <a href="admin-login.html">Already registered? Login</a>
+  </div>
+
+  <script>
+    function registerAdmin() {
+      const username = document.getElementById("newAdminUsername").value;
+      const password = document.getElementById("newAdminPassword").value;
+
+      if (username && password) {
+        const admin = { username, password };
+        localStorage.setItem("adminAccount", JSON.stringify(admin));
+        alert("Registration successful!");
+        window.location.href = "admin-login.html";
+      } else {
+        alert("Please fill all fields.");
+      }
+    }
+  </script>
+</body>
+</html>
