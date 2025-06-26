@@ -1,21 +1,157 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Payment</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout - Payment</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    .payment-container {
+      max-width: 700px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .payment-option {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .payment-methods {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .method-box {
+      border: 1px solid #ccc;
+      padding: 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .method-box:hover {
+      background-color: #f0f0f0;
+    }
+    .selected {
+      border-color: #007bff;
+      background-color: #e8f0fe;
+    }
+    .submit-btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .submit-btn:hover {
+      background-color: #218838;
+    }
+  </style>
 </head>
 <body>
-<div class="container py-5 text-center">
-  <h2 class="mb-4">Select Payment Method</h2>
-  <button class="btn btn-dark btn-lg" onclick="payOnDelivery()">Cash on Delivery</button>
-</div>
-<script>
-  function payOnDelivery() {
-    alert("Order Placed with Cash on Delivery!");
-    window.location.href = "orders.html";
-  }
-</script>
+
+  <div class="payment-container">
+    <h2>Payment Page</h2>
+
+    <form id="payment-form">
+      <!-- Billing Info -->
+      <div class="payment-option">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" required>
+
+        <label for="address">Shipping Address</label>
+        <input type="text" id="address" required>
+      </div>
+
+      <!-- Payment Method -->
+      <div class="payment-option">
+        <label>Select Payment Method</label>
+        <div class="payment-methods">
+          <div class="method-box" onclick="selectMethod('cod')" id="cod-box">
+            <input type="radio" name="payment" value="cod" id="cod" required>
+            <label for="cod">Cash on Delivery (COD)</label>
+          </div>
+
+          <div class="method-box" onclick="selectMethod('online')" id="online-box">
+            <input type="radio" name="payment" value="online" id="online" required>
+            <label for="online">Online Payment (Card/UPI)</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Online Payment Fields -->
+      <div id="online-payment-fields" style="display:none; margin-top: 20px;">
+        <label for="card">Card Number</label>
+        <input type="number" id="card" placeholder="1234 5678 9012 3456">
+
+        <label for="expiry">Expiry Date</label>
+        <input type="text" id="expiry" placeholder="MM/YY">
+
+        <label for="cvv">CVV</label>
+        <input type="number" id="cvv" placeholder="123">
+      </div>
+
+      <button type="submit" class="submit-btn">Place Order</button>
+    </form>
+  </div>
+
+  <script>
+    const codBox = document.getElementById("cod-box");
+    const onlineBox = document.getElementById("online-box");
+    const onlineFields = document.getElementById("online-payment-fields");
+
+    function selectMethod(method) {
+      if (method === 'cod') {
+        codBox.classList.add("selected");
+        onlineBox.classList.remove("selected");
+        onlineFields.style.display = "none";
+        document.getElementById("cod").checked = true;
+      } else {
+        onlineBox.classList.add("selected");
+        codBox.classList.remove("selected");
+        onlineFields.style.display = "block";
+        document.getElementById("online").checked = true;
+      }
+    }
+
+    // Optional: prevent default submit and show alert
+    document.getElementById("payment-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const method = document.querySelector('input[name="payment"]:checked').value;
+      alert("Order placed using: " + (method === 'cod' ? "Cash on Delivery" : "Online Payment"));
+      // You can redirect or trigger payment API here
+    });
+  </script>
+
 </body>
 </html>

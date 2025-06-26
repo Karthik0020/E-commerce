@@ -1,13 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Logging Out</title>
+  <meta charset="UTF-8">
+  <title>Logout</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<section id="header">
+  <a href="#"><img src="https://theloom.in/media/loom-text.png" class="logo" alt="" style="height: 50px;"></a>
+</section>
+
+<section class="section-p1 logout-container">
+  <h2>You have been logged out!</h2>
+  <p>Thank you for visiting.</p>
+  <a href="index.html" class="normal">Return to Home</a>
+</section>
+
 <script>
-  localStorage.clear();
-  alert("You have been logged out.");
-  window.location.href = "login.html";
+  localStorage.removeItem('user');
+  localStorage.removeItem('cart');
+  localStorage.removeItem('wishlist');
 </script>
+
 </body>
 </html>
