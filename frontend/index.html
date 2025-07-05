@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Commerce - Home</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<section id="header">
+    <a href="#"><img src="https://theloom.in/media/loom-text.png" class="logo" alt="" style="height: 50px;"></a>
+    <div>
+      <ul id="navbar">
+        <li><a class="active" href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="products-dynamic.html">Products</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li id="auth-links">
+          <a href="login.html" id="login-link">Login</a>
+          <a href="#" id="logout-link" style="display: none;">Logout</a>
+        </li>
+        <div class="right-icons">
+          <li><a href="wishlist.html"><i class="fas fa-heart"></i></a></li>
+          <li><a href="cart-dynamic.html"><i class="fas fa-shopping-cart"></i><span id="cart-count">0</span></a></li>
+        </div>
+      </ul>
+    </div>
+</section>
+
+<section id="hero">
+    <h4>Trade-in-offer</h4>
+    <h2>Super value deals</h2>
+    <h1>On all products</h1>
+    <p>save more with coupons & up to 70% off</p>
+    <a href="products-dynamic.html" class="btn">Shop Now</a>
+</section>
+
+<section id="feature">
+    <div class="fe-box">
+        <img src="https://img.freepik.com/premium-vector/woman-doing-online-shopping-with-smartphone-concept-illustration_619097-260.jpg" alt="">
+        <h6>Free Shipping</h6>
+    </div>
+
+     <div class="fe-box">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRS72b8Q_F2C4VpSmbDKFsLs_eOk8aaHcwErQ&s" alt="">
+        <h6>Online Order</h6>
+    </div>
+
+     <div class="fe-box">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6birU9VpBrnNq1WnuvnX2rAYh-Vsy5U_ntg&s" alt="">
+        <h6>Save Money</h6>
+    </div>
+
+     <div class="fe-box">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYd6wIlU0MAOytwo-dCvlhORljeBTChkZfgLEoKu9ZAhMINTi7AWhsT1uWh1UL05s-TLc&usqp=CAU" alt="">
+        <h6>Promotions</h6>
+    </div>
+
+     <div class="fe-box">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8lGZN-AmvN8OuGZr4a-gxpc9JEk0uzcPHtg&s" alt="">
+        <h6>Happy Sale</h6>
+    </div>
+    <div class="fe-box">
+        <img src="https://png.pngtree.com/png-clipart/20191122/original/pngtree-technical-support-vector-24-7-support-working-online-tech-support-flat-png-image_5189955.jpg" alt="">
+        <h6>24/7 Support</h6>
+    </div>
+</section>
+
+<section id="product1" class="section-p1">
+    <h2>Featured Products</h2>
+    <p>Summer Collections New Modern Design</p>
+    
+    <div id="loading-container" style="text-align: center; padding: 50px;">
+        <div class="loading-spinner"></div>
+        <p>Loading featured products...</p>
+    </div>
+    
+    <div id="error-container" style="display: none; text-align: center; padding: 50px; color: #d32f2f;">
+        <i class="fas fa-exclamation-triangle" style="font-size: 48px; margin-bottom: 20px;"></i>
+        <h3>Error Loading Products</h3>
+        <p id="error-message"></p>
+        <button onclick="loadFeaturedProducts()" style="margin-top: 20px; padding: 10px 20px; background: #4facfe; color: white; border: none; border-radius: 5px; cursor: pointer;">Try Again</button>
+    </div>
+    
+    <div class="pro-container" id="featured-products-container">
+        <!-- Featured products will be loaded here dynamically -->
+    </div>
+</section>
+
+<style>
+.loading-spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #4facfe;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.product-card {
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.wishlist-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.wishlist-btn:hover {
+    background: #ff6b6b;
+    color: white;
+}
+
+.wishlist-btn.in-wishlist {
+    background: #ff6b6b;
+    color: white;
+}
+
+.add-to-cart-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+    background: #4facfe;
+    color: white;
+}
+</style>
+
+<script src="api.js"></script>
+<script>
+// Initialize the page
+document.addEventListener('DOMContentLoaded', function() {
+    updateAuthUI();
+    loadFeaturedProducts();
+    updateCartCount();
+});
+
+// Update authentication UI
+function updateAuthUI() {
+    const loginLink = document.getElementById('login-link');
+    const logoutLink = document.getElementById('logout-link');
+    
+    if (API.auth.isAuthenticated()) {
+        loginLink.style.display = 'none';
+        logoutLink.style.display = 'inline';
+        
+        const user = API.auth.getUser();
+        if (user) {
+            console.log('User logged in:', user.fullName);
+        }
+    } else {
+        loginLink.style.display = 'inline';
+        logoutLink.style.display = 'none';
+    }
+    
+    // Add logout functionality
+    logoutLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        API.auth.logout();
+        updateAuthUI();
+        updateCartCount();
+        showMessage('Logged out successfully', 'success');
+    });
+}
+
+// Load featured products
+async function loadFeaturedProducts() {
+    const loadingContainer = document.getElementById('loading-container');
+    const errorContainer = document.getElementById('error-container');
+    const productsContainer = document.getElementById('featured-products-container');
+    
+    try {
+        loadingContainer.style.display = 'block';
+        errorContainer.style.display = 'none';
+        productsContainer.innerHTML = '';
+        
+        const response = await API.products.getAll({ limit: 6 });
+        
+        if (response.products && response.products.length > 0) {
+            displayFeaturedProducts(response.products);
+        } else {
+            productsContainer.innerHTML = '<p style="text-align: center; color: #666;">No featured products available.</p>';
+        }
+        
+    } catch (error) {
+        console.error('Error loading featured products:', error);
+        errorContainer.style.display = 'block';
+        document.getElementById('error-message').textContent = error.message || 'Failed to load products';
+    } finally {
+        loadingContainer.style.display = 'none';
+    }
+}
+
+// Display featured products
+function displayFeaturedProducts(products) {
+    const container = document.getElementById('featured-products-container');
+    
+    container.innerHTML = products.map(product => `
+        <div class="pro product-card" onclick="window.location.href='product-details.html?id=${product.id}';">
+            <img src="${product.main_image || 'https://via.placeholder.com/300x400?text=No+Image'}" alt="${product.name}">
+            <div class="des">
+                <span>${product.brand || 'Brand'}</span>
+                <h5>${product.name}</h5>
+                <div class="star">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <h4>$${product.price.toFixed(2)}</h4>
+            </div>
+            <div class="icon-container">
+                <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${product.id})" title="Add to Cart">
+                    <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button class="wishlist-btn" onclick="event.stopPropagation(); toggleWishlist(${product.id})" title="Add to Wishlist">
+                    <i class="fas fa-heart"></i>
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Add to cart functionality
+async function addToCart(productId) {
+    if (!API.auth.isAuthenticated()) {
+        showMessage('Please login to add items to cart', 'error');
+        return;
+    }
+    
+    try {
+        await API.cart.addItem(productId, 1);
+        showMessage('Product added to cart successfully!', 'success');
+        updateCartCount();
+    } catch (error) {
+        showMessage(error.message || 'Failed to add product to cart', 'error');
+    }
+}
+
+// Toggle wishlist functionality
+async function toggleWishlist(productId) {
+    if (!API.auth.isAuthenticated()) {
+        showMessage('Please login to add items to wishlist', 'error');
+        return;
+    }
+    
+    try {
+        await API.wishlist.toggleItem(productId);
+        showMessage('Wishlist updated successfully!', 'success');
+    } catch (error) {
+        showMessage(error.message || 'Failed to update wishlist', 'error');
+    }
+}
+
+// Update cart count
+async function updateCartCount() {
+    const cartCountElement = document.getElementById('cart-count');
+    
+    if (!API.auth.isAuthenticated()) {
+        cartCountElement.textContent = '0';
+        return;
+    }
+    
+    try {
+        const cart = await API.cart.getCart();
+        const totalItems = cart.items ? cart.items.reduce((total, item) => total + item.quantity, 0) : 0;
+        cartCountElement.textContent = totalItems;
+    } catch (error) {
+        console.error('Error updating cart count:', error);
+        cartCountElement.textContent = '0';
+    }
+}
+</script>
+
+<section id="banner" class="section-m1">
+  <h4>Repair Services</h4>
+  <h2>Up to <span>70% Off</span> On All t-shirts & Accessories </h2>
+  <button class="normal">Explore more</button>
+</section>
+
+
+<section id="banners" class="section-p1">
+     <h2>Shop by Category</h2>
+     <p>Showstopper styles</p>
+  <div class="banner-container">
+    <div class="banner-box">
+      <img src="https://images.asos-media.com/products/dickies-large-logo-back-print-t-shirt-in-blue/206606083-1-midblue?$n_640w$&wid=513&fit=constrain" alt="50% Off Sale">
+      <div class="banner-text">
+        <h2>50% OFF</h2>
+        <p>On All T-Shirts</p>
+      </div>
+    </div>
+
+    <div class="banner-box">
+      <img src="https://th-i.thgim.com/public/incoming/bw54zu/article68335065.ece/alternates/FREE_1200/29mp_urbanic1.jpg" alt="New Arrivals">
+      <div class="banner-text">
+        <h2>New Arrivals</h2>
+        <p>Summer Collection</p>
+      </div>
+    </div>
+
+    <div class="banner-box">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRldJyKHdXiRYg2Y-uiVa4rgSnuvaSL9dJEQt9gE5NA2-DOrIogY5F9DTVWFM8FFHm83zY&usqp=CAU" alt="Best Seller">
+      <div class="banner-text">
+        <h2>Best Sellers</h2>
+        <p>Top Rated Items</p>
+      </div>
+    </div>
+
+    <div class="banner-box">
+      <img src="https://assets.ajio.com/medias/sys_master/root/20241021/WlgC/67164ba2f9b8ef490bcf3236/-473Wx593H-442702609-green-MODEL.jpg" alt="Best Seller">
+      <div class="banner-text">
+        <h2>Limited Offer</h2>
+        <p>Hurry up!</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="sm-banner" class="section-p1">
+    <div class="banner-box">
+        <h4>crazy Deals</h4>
+        <h2>buy 1 get 1 free</h2>
+        <span> The best Classic dress is on sale at cara</span>
+        <button class="white">Learn more</button>
+    </div>
+     <div class="banner-box banner-box2">
+        <h4>Spring/Summer</h4>
+        <h2>Upcoming Season</h2>
+        <span> The best Classic dress is on sale at cara</span>
+        <button class="white">Collections</button>
+    </div>
+</section>
+
+<section id="banner3">
+       <div class="banner-box">
+        <h2>Seasonal Sale</h2>
+        <h3>Winter Collection -50% OFF</h3>
+    </div>
+     <div class="banner-box banner-box2">
+        <h2>New Footwear collections</h2>
+        <h3>Winter Collection -50% OFF</h3>
+    </div>
+     <div class="banner-box banner-box3">
+        <h2>T-shirts</h2>
+        <h3>New Trendy Prints</h3>
+    </div>
+</section>
+
+<section id="newsletter" class="section-p1 section-m1"> 
+    <div class="newstext">
+        <h4>Sign Up For Newsletters</h4>
+        <p>Get E-mail update about our latest shop and <span>special offers.</span></p>
+    </div>
+<div class="form">
+<input type="text" placeholder="Your email address">
+<button class="normal">Sign Up</button>
+</div>
+</section>
+
+<footer class="section-p1">
+    <div class="col">
+        <img class="logo" src="https://theloom.in/media/loom-text.png" alt="Logo">
+        <h4>Contact</h4>
+        <p>562 Wellington Road street 32, San Francisco</p>
+        <p><strong>Phone:</strong> +01 3333 678 / (+91) 01 4325 6786</p>
+        <p><strong>Hours:</strong> 10:00 - 18:00, Mon - Sat</p>  
+        <div class="follow">
+            <h4>Follow Us</h4>
+            <div class="icon">
+                <i class="fab fa-facebook-f"></i>
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-pinterest-p"></i>
+                <i class="fab fa-youtube"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <h4>About Us</h4>
+        <a href="#">About Us</a>
+        <a href="#">Delivery Information</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms & Conditions</a>
+        <a href="#">Contact Us</a> 
+    </div>
+
+    <div class="col">
+        <h4>My Account</h4>
+        <a href="#">Sign In</a>
+        <a href="#">View Cart</a>
+        <a href="#">My Wishlist</a>
+        <a href="#">Track My Order</a>
+        <a href="#">Help</a> 
+    </div>
+
+    <div class="copyright">
+        <p>© 2025, HTML CSS E-commerce Website</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
