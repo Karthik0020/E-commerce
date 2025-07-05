@@ -184,13 +184,6 @@
     const loading = document.getElementById("loading");
     const messageContainer = document.getElementById("message-container");
 
-    function showMessage(message, type = 'error') {
-        messageContainer.innerHTML = `<div class="${type}-message">${message}</div>`;
-        setTimeout(() => {
-            messageContainer.innerHTML = '';
-        }, 5000);
-    }
-
     function setLoading(isLoading) {
         loginBtn.disabled = isLoading;
         loading.style.display = isLoading ? 'block' : 'none';
@@ -212,9 +205,6 @@
 
         try {
             const response = await API.auth.login({ email, password });
-            
-            // Store user data
-            localStorage.setItem('user', JSON.stringify(response.user));
             
             showMessage("Login successful! Redirecting...", 'success');
             

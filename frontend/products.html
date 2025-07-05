@@ -3,31 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>E-Commerce - Home</title>
+  <title>E-Commerce - Products</title>
   <link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
 <section id="header">
     <a href="#"><img src="https://theloom.in/media/loom-text.png" class="logo" alt="" style="height: 50px;"></a>
     <div>
-  <ul id="navbar">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a class="active" href="products.html">Products</a></li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="login.html">Login</a></li>
-   
-     <div class="right-icons">
-      <li><a href="wishlist.html"><i class="fas fa-heart"></i></a></li>
-      <li><a href="cart.html"><i class="fas fa-shopping-cart"></i></a></li>
+      <ul id="navbar">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a class="active" href="products.html">Products</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li id="auth-links">
+          <a href="login.html" id="login-link">Login</a>
+          <a href="#" id="logout-link" style="display: none;">Logout</a>
+        </li>
+        <div class="right-icons">
+          <li><a href="wishlist.html"><i class="fas fa-heart"></i></a></li>
+          <li><a href="cart-dynamic.html"><i class="fas fa-shopping-cart"></i><span id="cart-count">0</span></a></li>
+        </div>
+      </ul>
     </div>
-  </ul>
-</div>
 </section>
 
 <section id="page-header">

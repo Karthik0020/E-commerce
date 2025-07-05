@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/ecommerce_db
+      - JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+      - NODE_ENV=development
+      - CORS_ORIGIN=http://localhost:5173
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run dev
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=ecommerce_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Optional: Prisma Studio for database management
+  studio:
+    build: .
+    ports:
+      - "5555:5555"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/ecommerce_db
+    depends_on:
+      - db
+    command: npx prisma studio --hostname 0.0.0.0 --port 5555
+
+volumes:
+  postgres_data: 

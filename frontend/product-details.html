@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Commerce - Home</title>
+  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+</head>
+<body>
+
+<section id="header">
+    <a href="#"><img src="https://theloom.in/media/loom-text.png" class="logo" alt="" style="height: 50px;"></a>
+    <div>
+      <ul id="navbar">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="products-dynamic.html">Products</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li id="auth-links">
+          <a href="login.html" id="login-link">Login</a>
+          <a href="#" id="logout-link" style="display: none;">Logout</a>
+        </li>
+        <div class="right-icons">
+          <li><a href="wishlist.html"><i class="fas fa-heart"></i></a></li>
+          <li><a href="cart-dynamic.html"><i class="fas fa-shopping-cart"></i><span id="cart-count">0</span></a></li>
+        </div>
+      </ul>
+    </div>
+</section>
+
+<section id="pro-detail" class="section-p1">
+  <div class="single-pro-image">
+    <img id="MainImg" src="" width="100%" alt="">
+    <div class="small-img-group" id="smallImages"></div>
+  </div>
+
+  <div class="single-pro-details">
+    <h6 id="brand"></h6>
+    <h4 id="productName"></h4>
+    <h2 id="price"></h2>
+    <select>
+      <option>Select Size</option>
+      <option>XL</option>
+      <option>Large</option>
+      <option>XXL</option>
+      <option>Medium</option>
+      <option>Small</option>
+      <option>XS</option>
+    </select>
+  <input type="number" id="quantity" value="1" min="1">
+<button id="add-to-cart-btn">Add to Cart</button>
+    <h4>Product Details</h4>
+    <p id="description"></p>
+  </div>
+</section>
+
+<script src="api.js"></script>
+<script>
+let currentProduct = null;
+
+// Initialize the page
+document.addEventListener('DOMContentLoaded', function() {
+    updateAuthUI();
+    loadProductDetails();
+    updateCartCount();
+});
+
+// Update authentication UI
+function updateAuthUI() {
+    const loginLink = document.getElementById('login-link');
+    const logoutLink = document.getElementById('logout-link');
+    
+    if (API.auth.isAuthenticated()) {
+        loginLink.style.display = 'none';
+        logoutLink.style.display = 'inline';
+        
+        const user = API.auth.getUser();
+        if (user) {
+            console.log('User logged in:', user.fullName);
+        }
+    } else {
+        loginLink.style.display = 'inline';
+        logoutLink.style.display = 'none';
+    }
+    
+    // Add logout functionality
+    logoutLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        API.auth.logout();
+        updateAuthUI();
+        updateCartCount();
+        showMessage('Logged out successfully', 'success');
+    });
+}
+
+// Load product details from API
+async function loadProductDetails() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+    
+    if (!productId) {
+        showMessage('Product ID not found', 'error');
+        return;
+    }
+    
+    try {
+        const product = await API.products.getById(productId);
+        currentProduct = product;
+        displayProductDetails(product);
+    } catch (error) {
+        console.error('Error loading product:', error);
+        showMessage('Failed to load product details', 'error');
+        document.getElementById("pro-detail").innerHTML = "<h2>Product not found</h2>";
+    }
+}
+
+// Display product details
+function displayProductDetails(product) {
+    document.getElementById("MainImg").src = product.main_image || 'https://via.placeholder.com/400x500?text=No+Image';
+    document.getElementById("brand").innerText = product.brand || 'Brand';
+    document.getElementById("productName").innerText = product.name;
+    document.getElementById("price").innerText = `$${product.price.toFixed(2)}`;
+    document.getElementById("description").innerText = product.description || 'No description available';
+
+    const smallImagesContainer = document.getElementById("smallImages");
+    smallImagesContainer.innerHTML = '';
+    
+    // Add main image as first small image
+    if (product.main_image) {
+        addSmallImage(product.main_image);
+    }
+    
+    // Add additional images
+    if (product.images && Array.isArray(product.images)) {
+        product.images.forEach(imgUrl => {
+            addSmallImage(imgUrl);
+        });
+    }
+
+    // Add event listeners for small images
+    setTimeout(() => {
+        document.querySelectorAll('.small-img').forEach(img => {
+            img.onclick = () => {
+                document.getElementById("MainImg").src = img.src;
+            }
+        });
+    }, 100);
+}
+
+// Add small image to gallery
+function addSmallImage(imgUrl) {
+    const smallImagesContainer = document.getElementById("smallImages");
+    const imgDiv = document.createElement("div");
+    imgDiv.classList.add("small-img-col");
+    imgDiv.innerHTML = `<img src="${imgUrl}" width="100%" class="small-img" alt="">`;
+    smallImagesContainer.appendChild(imgDiv);
+}
+
+// Add to Cart functionality
+document.getElementById("add-to-cart-btn").addEventListener("click", async function() {
+    if (!API.auth.isAuthenticated()) {
+        showMessage('Please login to add items to cart', 'error');
+        return;
+    }
+    
+    if (!currentProduct) {
+        showMessage('Product not loaded', 'error');
+        return;
+    }
+    
+    const quantity = parseInt(document.getElementById("quantity").value);
+    
+    try {
+        await API.cart.addItem(currentProduct.id, quantity);
+        showMessage('Product added to cart successfully!', 'success');
+        updateCartCount();
+    } catch (error) {
+        showMessage(error.message || 'Failed to add product to cart', 'error');
+    }
+});
+
+// Update cart count
+async function updateCartCount() {
+    const cartCountElement = document.getElementById('cart-count');
+    
+    if (!API.auth.isAuthenticated()) {
+        cartCountElement.textContent = '0';
+        return;
+    }
+    
+    try {
+        const cart = await API.cart.getCart();
+        const totalItems = cart.items ? cart.items.reduce((total, item) => total + item.quantity, 0) : 0;
+        cartCountElement.textContent = totalItems;
+    } catch (error) {
+        console.error('Error updating cart count:', error);
+        cartCountElement.textContent = '0';
+    }
+}
+</script>
+
+
+
+<section id="product1" class="section-p1">
+    <h2>Featured Products</h2>
+    <p>Summer Collections New Modern Design</p>
+    <div class="pro-container">
+        <div class="pro">
+            <img src="https://media.powerlook.in/catalog/product/d/p/dp21203321.jpg?aio=w-640" alt="">
+            <div class="des">
+                <span>adidas</span>
+                <h5>Cartoon Astronaut shirt</h5>
+                <div class="star">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <h4>$50.08</h4>
+            </div>
+            <div class="icon-container">
+                <a href="#"><span class="cart">🛒</span></a>
+                <a href="#"><span class="heart">❤️</span></a>
+            </div>
+        </div>
+
+          <div class="pro">
+            <img src="https://img105.savana.com/goods-pic/b049333d32d14e6598bdafa68539827c_w540_h720_q85.webp" alt="">
+            <div class="des">
+                <span>Savana</span>
+                <h5>Darted Shirt Dress</h5>
+                <div class="star">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <h4>$28.2</h4>
+            </div>
+            <div class="icon-container">
+                <a href="#"><span class="cart">🛒</span></a>
+                <a href="#"><span class="heart">❤️</span></a>
+            </div>
+        </div>
+
+          <div class="pro">
+            <img src="https://img105.savana.com/goods-pic/35e2243c8b154f9788a59a60abd34dddUR_w1440_q90.webp" alt="">
+            <div class="des">
+                <span>Savana</span>
+                <h5>Textured Midi Dress</h5>
+                <div class="star">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <h4>$34.9</h4>
+            </div>
+            <div class="icon-container">
+                <a href="#"><span class="cart">🛒</span></a>
+                <a href="#"><span class="heart">❤️</span></a>
+            </div>
+        </div>
+
+          <div class="pro">
+            <img src="https://media.powerlook.in/catalog/product/3/_/3_1442_169.jpg?aio=w-640" alt="">
+            <div class="des">
+                <span>POWERLOOK</span>
+                <h5>Blue Stripes Shirt</h5>
+                <div class="star">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <h4>$25.30</h4>
+            </div>
+            <div class="icon-container">
+                <a href="#"><span class="cart">🛒</span></a>
+                <a href="#"><span class="heart">❤️</span></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="newsletter" class="section-p1 section-m1"> 
+    <div class="newstext">
+        <h4>Sign Up For Newsletters</h4>
+        <p>Get E-mail update about our latest shop and <span>special offers.</span></p>
+    </div>
+<div class="form">
+<input type="text" placeholder="Your email address">
+<button class="normal">Sign Up</button>
+</div>
+</section>
+
+<footer class="section-p1">
+    <div class="col">
+        <img class="logo" src="https://theloom.in/media/loom-text.png" alt="Logo">
+        <h4>Contact</h4>
+        <p>562 Wellington Road street 32, San Francisco</p>
+        <p><strong>Phone:</strong> +01 3333 678 / (+91) 01 4325 6786</p>
+        <p><strong>Hours:</strong> 10:00 - 18:00, Mon - Sat</p>  
+        <div class="follow">
+            <h4>Follow Us</h4>
+            <div class="icon">
+                <i class="fab fa-facebook-f"></i>
+                <i class="fab fa-twitter"></i>
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-pinterest-p"></i>
+                <i class="fab fa-youtube"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <h4>About Us</h4>
+        <a href="#">About Us</a>
+        <a href="#">Delivery Information</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms & Conditions</a>
+        <a href="#">Contact Us</a> 
+    </div>
+
+    <div class="col">
+        <h4>My Account</h4>
+        <a href="#">Sign In</a>
+        <a href="#">View Cart</a>
+        <a href="#">My Wishlist</a>
+        <a href="#">Track My Order</a>
+        <a href="#">Help</a> 
+    </div>
+
+
+    <div class="copyright">
+        <p>© 2025, HTML CSS E-commerce Website</p>
+    </div>
+</footer>
+
+
+<script src="script.js"></script>
+</body>
+</html>

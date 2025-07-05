@@ -177,13 +177,6 @@
     const loading = document.getElementById("loading");
     const messageContainer = document.getElementById("message-container");
 
-    function showMessage(message, type = 'error') {
-        messageContainer.innerHTML = `<div class="${type}-message">${message}</div>`;
-        setTimeout(() => {
-            messageContainer.innerHTML = '';
-        }, 5000);
-    }
-
     function setLoading(isLoading) {
         registerBtn.disabled = isLoading;
         loading.style.display = isLoading ? 'block' : 'none';
@@ -210,6 +203,13 @@
 
         if (password.length < 6) {
             showMessage("Password must be at least 6 characters long!");
+            return;
+        }
+
+        // Password complexity check
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
+        if (!passwordRegex.test(password)) {
+            showMessage("Password must contain at least one lowercase letter, one uppercase letter, and one number!");
             return;
         }
 
